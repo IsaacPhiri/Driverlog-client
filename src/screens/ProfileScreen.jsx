@@ -9,14 +9,11 @@ import { setCredentials } from '../slices/authSlice';
 import { useUpdateUserMutation } from '../slices/usersApiSlice';
 
 const ProfileScreen = () => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [licenseNumber, setLicenseNumber] = useState('');
-    const [nationalId, setNationalId] = useState('');
-    const [contactNumber, setContactNumber] = useState('');
-    const [email, setEmail] = useState('');
-    const [homeAddress, setHomeAddress] = useState('');
-    const [licenseExpiryDate, setLicenseExpiryDate] = useState('');
+    const [companyName, setCompanyName] = useState('');
+    const [companyEmail, setCompanyEmail] = useState('');
+    const [companyContactNo, setCompanyContactNo] = useState('');
+    const [companyAddress, setCompanyAddress] = useState('');
+    const [companyRegNo, setCompanyRegNo] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     
@@ -28,23 +25,17 @@ const ProfileScreen = () => {
     const [updateProfile, { isLoading }] = useUpdateUserMutation();
 
     useEffect(() => {
-        setFirstName(userInfo.firstName);
-        setLastName(userInfo.lastName);
-        setLicenseNumber(userInfo.licenseNumber);
-        setNationalId(userInfo.nationalId);
-        setContactNumber(userInfo.contactNumber);
-        setEmail(userInfo.email);
-        setHomeAddress(userInfo.homeAddress);
-        setLicenseExpiryDate(userInfo.licenseExpiryDate);
+        setCompanyName(userInfo.companyName);
+        setCompanyEmail(userInfo.companyEmail);
+        setCompanyContactNo(userInfo.companyContactNo);
+        setCompanyAddress(userInfo.companyAddress);
+        setCompanyRegNo(userInfo.companyRegNo);
     }, [
-        userInfo.firstName,
-        userInfo.lastName,
-        userInfo.licenseNumber,
-        userInfo.nationalId,
-        userInfo.contactNumber,
-        userInfo.email,
-        userInfo.homeAddress,
-        userInfo.licenseExpiryDate
+        userInfo.companyName,
+        userInfo.companyEmail,
+        userInfo.companyContactNo,
+        userInfo.companyAddress,
+        userInfo.companyRegNo
     ]);
 
 
@@ -55,19 +46,16 @@ const ProfileScreen = () => {
         } else {try {
             const res = await updateProfile({
                 id: userInfo.id,
-                firstName,
-                lastName,
-                licenseNumber,
-                nationalId,
-                contactNumber,
-                email,
-                homeAddress,
-                licenseExpiryDate,
+                companyName,
+                companyEmail,
+                companyContactNo,
+                companyAddress,
+                companyRegNo,
                 password
             }).unwrap();
             dispatch(setCredentials({...res}));
             toast.success('Profile Updated Successfully');
-            navigate('/');
+            navigate('/dashboard');
         } catch (err) {
             toast.error(err?.data?.message || err.error);
         }
@@ -76,91 +64,55 @@ const ProfileScreen = () => {
 
   return (
     <FormContainer>
-        <h1>Update Profile</h1>
+        <h1>Update Company Profile</h1>
 
         <Form onSubmit={submitHandler}>
-            <Form.Group className='my-2' controlId='firstName'>
-                <Form.Label>First Name</Form.Label>
+        <Form.Group className='my-2' controlId='companyName'>
                 <Form.Control
                     type='text'
-                    placeholder='Enter your first name'
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    placeholder='Enter company name'
+                    value={companyName}
+                    onChange={(e) => setCompanyName(e.target.value)}
                 ></Form.Control>
             </Form.Group>
 
-            <Form.Group className='my-2' controlId='lastName'>
-                <Form.Label>Last Name</Form.Label>
+            <Form.Group className='my-2' controlId='companyEmail'>
                 <Form.Control
                     type='text'
-                    placeholder='Enter your last name'
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    placeholder='Enter company email'
+                    value={companyEmail}
+                    onChange={(e) => setCompanyEmail(e.target.value)}
                 ></Form.Control>
             </Form.Group>
 
-            <Form.Group className='my-2' controlId='licenseNumber'>
-                <Form.Label>License Number</Form.Label>
+            <Form.Group className='my-2' controlId='companyContactNo'>
                 <Form.Control
                     type='text'
-                    placeholder='Enter your license number'
-                    value={licenseNumber}
-                    onChange={(e) => setLicenseNumber(e.target.value)}
+                    placeholder='Enter company contact number'
+                    value={companyContactNo}
+                    onChange={(e) => setCompanyContactNo(e.target.value)}
                 ></Form.Control>
             </Form.Group>
 
-            <Form.Group className='my-2' controlId='nationalId'>
-                <Form.Label>National ID</Form.Label>
+            <Form.Group className='my-2' controlId='companyAddress'>
                 <Form.Control
                     type='text'
-                    placeholder='Enter your national ID (e.g 123456/10/1)'
-                    value={nationalId}
-                    onChange={(e) => setNationalId(e.target.value)}
+                    placeholder='Enter company address'
+                    value={companyAddress}
+                    onChange={(e) => setCompanyAddress(e.target.value)}
                 ></Form.Control>
             </Form.Group>
 
-            <Form.Group className='my-2' controlId='contactNumber'>
-                <Form.Label>Contact Number</Form.Label>
+            <Form.Group className='my-2' controlId='companyRegNo'>
                 <Form.Control
                     type='text'
-                    placeholder='Enter your contact number (e.g 0977123456)'
-                    value={contactNumber}
-                    onChange={(e) => setContactNumber(e.target.value)}
-                ></Form.Control>
-            </Form.Group>
-
-            <Form.Group className='my-2' controlId='homeAddress'>
-                <Form.Label>Home Address</Form.Label>
-                <Form.Control
-                    type='text'
-                    placeholder='Enter your home address'
-                    value={homeAddress}
-                    onChange={(e) => setHomeAddress(e.target.value)}
-                ></Form.Control>
-            </Form.Group>
-
-            <Form.Group className='my-2' controlId='licenseExpiryDate'>
-                <Form.Label>License Expiry Date</Form.Label>
-                <Form.Control
-                    type='text'
-                    placeholder='Enter License Expiration Date'
-                    value={licenseExpiryDate}
-                    onChange={(e) => setLicenseExpiryDate(e.target.value)}
-                ></Form.Control>
-            </Form.Group>
-
-            <Form.Group className='my-2' controlId='email'>
-                <Form.Label>Email Address</Form.Label>
-                <Form.Control
-                    type='email'
-                    placeholder='Enter email'
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder='Enter company registration number'
+                    value={companyRegNo}
+                    onChange={(e) => setCompanyRegNo(e.target.value)}
                 ></Form.Control>
             </Form.Group>
 
             <Form.Group className='my-2' controlId='password'>
-                <Form.Label>Password</Form.Label>
                 <Form.Control
                     type='password'
                     placeholder='Enter password'
@@ -170,7 +122,6 @@ const ProfileScreen = () => {
             </Form.Group>
 
             <Form.Group className='my-2' controlId='confirmPassword'>
-                <Form.Label>Confirm Password</Form.Label>
                 <Form.Control
                     type='password'
                     placeholder='Confirm password'

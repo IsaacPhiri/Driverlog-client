@@ -10,7 +10,7 @@ import Loader from '../components/Loader';
 
 
 const LoginScreen = () => {
-    const [email, setEmail] = useState('');
+    const [companyEmail, setCompanyEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const dispatch = useDispatch();
@@ -29,11 +29,11 @@ const LoginScreen = () => {
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
-            const res = await login({ email, password }).unwrap();
+            const res = await login({ companyEmail, password }).unwrap();
             dispatch(setCredentials({ ...res }));
             toast.success('Logged in successfully');
             navigate('/dashboard');
-            setEmail('');
+            setCompanyEmail('');
             setPassword('');
 
         } catch (err) {
@@ -45,13 +45,13 @@ const LoginScreen = () => {
     <FormContainer>
         <h1>Login</h1>
         <Form onSubmit={submitHandler}>
-            <Form.Group className='my-2' controlId='email'>
-                <Form.Label>Email Address</Form.Label>
+            <Form.Group className='my-2' controlId='companyEmail'>
+                <Form.Label>Company Email</Form.Label>
                 <Form.Control
                     type='email'
                     placeholder='Enter email'
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={companyEmail}
+                    onChange={(e) => setCompanyEmail(e.target.value)}
                 ></Form.Control>
             </Form.Group>
 
@@ -73,7 +73,7 @@ const LoginScreen = () => {
 
             <Row className='py-3'>
                 <Col>
-                    New Customer? <Link to='/register'>Register</Link>
+                    Not Registered? <Link to='/register'>Register</Link>
                 </Col>
             </Row>
         </Form>
