@@ -8,7 +8,7 @@ export default defineConfig({
     port: 5000,
     proxy: {
       '/api': {
-        target: 'https://driverlog-api.onrender.com/',
+        target: 'https://driverlog-api.onrender.com', // http://localhost:3000
         changeOrigin: true,
       },
     },
